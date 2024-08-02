@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Auth;
 class ContactController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -40,11 +50,15 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required',
+            'name' => 'required|string|max:255',
             'phone_number' => 'required|digits:9'
         ]);
+
+        $data['user_id'] = Auth::id();
+
         Contact::create($data);
-        return redirect()->route('home');
+
+        return redirect()->route('contacts.index')->with('success', 'Contact created successfully.');
     }
 
     /**
@@ -66,7 +80,7 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact)
     {
-        //
+        return view('contacts.edit', compact('contact'));
     }
 
     /**
@@ -78,7 +92,13 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone_number' => 'required|digits:9'
+        ]);
+        $contact->update($data);
+
+        return redirect()->route('contacts.index')->with('success', 'Contact updated successfully.');
     }
 
     /**
@@ -89,6 +109,7 @@ class ContactController extends Controller
      */
     public function destroy(Contact $contact)
     {
-        //
+        $contact->delete();
+        return redirect()->route('contacts.index')->with('success', 'Contact deleted successfully.');
     }
 }
