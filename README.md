@@ -14,7 +14,7 @@ npm run dev
 php artisan serve
 php artisan route:list
 npm run watch
-php artisan make:Controller -p Contact ContactController
+php artisan make:controller -m Contact ContactController
 php artisan migrate
 
 php artisan make:migration create_contacts_table
