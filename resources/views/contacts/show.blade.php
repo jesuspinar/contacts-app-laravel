@@ -18,7 +18,10 @@
               </div>
               <div class="col-md-8">
                 <h3 class="card-title">{{ $contact->name }}</h3>
-                <p class="card-text"><strong>Phone Number:</strong> {{ $contact->phone_number }}</p>
+                <p class="card-text">
+                  <strong>Phone Number:</strong>
+                  <a href="tel:{{ $contact->phone_number }}">{{ $contact->phone_number }}</a>
+                </p>
                 <a href="{{ route('contacts.index') }}" class="btn btn-secondary">Back to Contacts</a>
               </div>
             </div>
