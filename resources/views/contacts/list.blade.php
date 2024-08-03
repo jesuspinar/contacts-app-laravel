@@ -9,15 +9,17 @@
             <div class="card-body">
               <h3 class="card-title text-capitalize">{{ $contact->name }}</h3>
               <p class="m-2">{{ $contact->phone_number }}</p>
+              <a href="{{ route('contacts.show', $contact) }}" class="btn btn-primary mb-2">Detail
+              </a>
               <a href="{{ route('contacts.edit', $contact) }}" class="btn btn-secondary mb-2">Edit
-                Contact</a>
-
-              <form action="{{ route('contacts.destroy', $contact) }}" method="POST" class="d-inline">
+              </a>
+              <form action="{{ route('contacts.destroy', $contact) }}" method="POST"
+                class="d-inline">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger mb-2"
                   onclick="return confirm('Are you sure you want to delete this contact?');">
-                  Delete Contact
+                  Delete
                 </button>
               </form>
             </div>
