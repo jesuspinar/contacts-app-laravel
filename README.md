@@ -19,3 +19,6 @@ php artisan migrate
 
 php artisan make:migration create_contacts_table
 php artisan make:model Contact
+
+
+php artisan tinker
