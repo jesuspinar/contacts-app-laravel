@@ -22,3 +22,5 @@ php artisan make:model Contact
 
 
 php artisan tinker
+
+php artisan make:component Alert
