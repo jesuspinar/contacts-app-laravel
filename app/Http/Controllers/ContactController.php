@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ContactController extends Controller
 {
@@ -51,8 +52,14 @@ class ContactController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'phone_number' => 'required|digits:9'
+            'phone_number' => 'required|digits:9',
+            'picture' => 'image|nullable'
         ]);
+
+        if ($request->hasFile('profile_picture')) {
+            $path = $request->file('profile_picture')->store('profiles', 'public');
+            $data['profile_picture'] = $path;
+        }
 
         $data['user_id'] = Auth::id();
 
@@ -97,8 +104,15 @@ class ContactController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'phone_number' => 'required|digits:9'
+            'phone_number' => 'required|digits:9',
+            'picture' => 'image|nullable'
         ]);
+
+        if ($request->hasFile('profile_picture')) {
+            $path = $request->file('profile_picture')->store('profiles', 'public');
+            $data['profile_picture'] = $path;
+        }
+
         $contact->update($data);
 
         return redirect('contacts')->with('alert',  [
@@ -115,6 +129,9 @@ class ContactController extends Controller
      */
     public function destroy(Contact $contact)
     {
+        if ($contact->profile_picture != 'profiles/default.png') {
+            Storage::disk('public')->delete($contact->profile_picture);
+        }
         $contact->delete();
         return redirect('contacts')->with('alert',  [
             'message' => "Contact $contact->name deleted successfully.",

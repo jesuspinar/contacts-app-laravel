@@ -24,3 +24,7 @@ php artisan make:model Contact
 php artisan tinker
 
 php artisan make:component Alert
+
+php artisan make:migration add_contact_picture_to_contacts_table
+
+php artisan storage:link
