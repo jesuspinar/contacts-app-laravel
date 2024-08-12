@@ -58,7 +58,10 @@ class ContactController extends Controller
 
         Contact::create($data);
 
-        return redirect()->route('contacts.index')->with('success', 'Contact created successfully.');
+        return redirect('contacts')->with('alert', [
+            'message' =>  "Contact $data[name] created successfully.",
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -98,7 +101,10 @@ class ContactController extends Controller
         ]);
         $contact->update($data);
 
-        return redirect()->route('contacts.index')->with('success', 'Contact updated successfully.');
+        return redirect('contacts')->with('alert',  [
+            'message' => "Contact $contact->name updated successfully.",
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -110,6 +116,9 @@ class ContactController extends Controller
     public function destroy(Contact $contact)
     {
         $contact->delete();
-        return redirect()->route('contacts.index')->with('success', 'Contact deleted successfully.');
+        return redirect('contacts')->with('alert',  [
+            'message' => "Contact $contact->name deleted successfully.",
+            'type' => 'success',
+        ]);
     }
 }
